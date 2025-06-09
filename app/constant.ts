@@ -36,6 +36,8 @@ export const CHATGLM_BASE_URL = "https://open.bigmodel.cn";
 
 export const SILICONFLOW_BASE_URL = "https://api.siliconflow.cn";
 
+export const OPENROUTER_BASE_URL = "https://openrouter.ai/api";
+
 export const CACHE_URL_PREFIX = "/api/cache";
 export const UPLOAD_URL = `${CACHE_URL_PREFIX}/upload`;
 
@@ -72,6 +74,7 @@ export enum ApiPath {
   ChatGLM = "/api/chatglm",
   DeepSeek = "/api/deepseek",
   SiliconFlow = "/api/siliconflow",
+  OpenRouter = "/api/openrouter",
 }
 
 export enum SlotID {
@@ -130,6 +133,7 @@ export enum ServiceProvider {
   ChatGLM = "ChatGLM",
   DeepSeek = "DeepSeek",
   SiliconFlow = "SiliconFlow",
+  OpenRouter = "OpenRouter",
 }
 
 // Google API safety settings, see https://ai.google.dev/gemini-api/docs/safety-settings
@@ -156,6 +160,7 @@ export enum ModelProvider {
   ChatGLM = "ChatGLM",
   DeepSeek = "DeepSeek",
   SiliconFlow = "SiliconFlow",
+  OpenRouter = "OpenRouter",
 }
 
 export const Stability = {
@@ -264,6 +269,12 @@ export const SiliconFlow = {
   ExampleEndpoint: SILICONFLOW_BASE_URL,
   ChatPath: "v1/chat/completions",
   ListModelPath: "v1/models?&sub_type=chat",
+};
+
+export const OpenRouter = {
+  ExampleEndpoint: OPENROUTER_BASE_URL,
+  ChatPath: "v1/chat/completions",
+  ListModelPath: "v1/models",
 };
 
 export const DEFAULT_INPUT_TEMPLATE = `{{input}}`; // input / time / model / lang
@@ -671,6 +682,26 @@ const siliconflowModels = [
   "Pro/deepseek-ai/DeepSeek-V3",
 ];
 
+const openrouterModels = [
+  "openai/gpt-4o-mini",
+  "openai/gpt-4o",
+  "openai/gpt-4-turbo",
+  "openai/gpt-3.5-turbo",
+  "anthropic/claude-3.5-sonnet",
+  "anthropic/claude-3-haiku",
+  "anthropic/claude-3-opus",
+  "google/gemini-pro-1.5",
+  "google/gemini-flash-1.5",
+  "meta-llama/llama-3.1-8b-instruct",
+  "meta-llama/llama-3.1-70b-instruct",
+  "meta-llama/llama-3.1-405b-instruct",
+  "mistralai/mistral-7b-instruct",
+  "mistralai/mixtral-8x7b-instruct",
+  "mistralai/mixtral-8x22b-instruct",
+  "deepseek/deepseek-chat",
+  "qwen/qwen-2.5-72b-instruct",
+];
+
 let seq = 1000; // 内置的模型序号生成器从1000开始
 export const DEFAULT_MODELS = [
   ...openaiModels.map((name) => ({
@@ -825,6 +856,17 @@ export const DEFAULT_MODELS = [
       providerName: "SiliconFlow",
       providerType: "siliconflow",
       sorted: 14,
+    },
+  })),
+  ...openrouterModels.map((name) => ({
+    name,
+    available: true,
+    sorted: seq++,
+    provider: {
+      id: "openrouter",
+      providerName: "OpenRouter",
+      providerType: "openrouter",
+      sorted: 15,
     },
   })),
 ] as const;
